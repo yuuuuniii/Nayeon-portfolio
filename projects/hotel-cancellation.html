@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Booking Cancellation Analysis — Nayeon Kwak</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Same 4-role color system as the landing page (portfolio-mockup-v4) */
+    :root {
+      --blue:        #132b6f;
+      --blue-deep:   #101f4f;
+      --blue-tint:   #eef2fa;
+      --orange:      #f47b20;
+      --orange-tint: #fdf0e4;
+      --grey:        #4a5568;
+      --grey-line:   #e4e8ef;
+      --grey-bg:     #f7f8fa;
+      --paper:       #ffffff;
+      --radius: 8px;
+      --shadow: 0 1px 2px rgba(16, 31, 79, 0.05), 0 8px 28px rgba(16, 31, 79, 0.07);
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --font-serif: Georgia, 'Times New Roman', serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--blue-deep); background: var(--paper); font-family: var(--font-sans); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, p, ul, ol { margin-top: 0; }
+    .wrap { width: min(760px, calc(100% - 40px)); margin: 0 auto; }
+
+    .nav-wrap { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--grey-line); background: rgba(255,255,255,0.92); backdrop-filter: blur(14px); }
+    .nav { width: min(1140px, calc(100% - 40px)); min-height: 64px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 22px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; }
+    .mark { width: 32px; height: 32px; border-radius: 7px; display: grid; place-items: center; background: var(--blue); color: var(--paper); font-size: 12px; font-weight: 700; }
+    .back { color: var(--grey); font-size: 14px; font-weight: 600; }
+    .back:hover { color: var(--blue); }
+
+    .page-head { padding: 72px 0 44px; }
+    .kicker { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 18px; color: var(--orange); font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
+    .kicker::before { content: ""; width: 22px; height: 2px; background: var(--orange); }
+    h1 { margin-bottom: 18px; font-size: clamp(30px, 4.4vw, 46px); font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; }
+    .summary { color: var(--grey); font-family: var(--font-serif); font-size: 18px; line-height: 1.6; margin-bottom: 26px; }
+    .head-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+    .method { padding: 5px 12px; border-radius: 999px; border: 1px solid var(--grey-line); background: var(--paper); color: var(--grey); font-size: 12px; font-weight: 600; }
+    .button { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border: 1px solid var(--blue); border-radius: 999px; background: var(--blue); color: var(--paper); font-size: 14px; font-weight: 600; transition: background 0.15s; }
+    .button:hover { background: var(--blue-deep); }
+
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--grey-line); border-radius: var(--radius); overflow: hidden; margin-top: 32px; }
+    .stat { padding: 18px 20px; border-left: 1px solid var(--grey-line); background: var(--grey-bg); }
+    .stat:first-child { border-left: 0; }
+    .stat strong { display: block; margin-bottom: 4px; color: var(--blue); font-size: 24px; font-weight: 700; line-height: 1; }
+    .stat span { color: var(--grey); font-size: 13px; line-height: 1.4; }
+
+    .page-body { padding: 20px 0 80px; }
+    .block { margin-bottom: 44px; }
+    .block h2 { margin-bottom: 14px; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+    .block p, .block li { color: var(--grey); font-size: 15.5px; line-height: 1.65; }
+    .block p { margin-bottom: 14px; }
+    .block ul, .block ol { margin: 0 0 14px; padding-left: 22px; display: grid; gap: 8px; }
+    .block li::marker { color: var(--blue); }
+    .block strong { color: var(--blue-deep); font-weight: 600; }
+    .insight { padding: 16px 20px; border-left: 3px solid var(--orange); border-radius: 0 var(--radius) var(--radius) 0; background: var(--orange-tint); color: var(--blue-deep); font-family: var(--font-serif); font-style: italic; font-size: 15px; line-height: 1.6; }
+
+    .page-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 26px 0 60px; border-top: 1px solid var(--grey-line); }
+    .page-foot a { font-size: 14px; font-weight: 600; color: var(--blue); }
+    .page-foot a:hover { color: var(--blue-deep); }
+
+    /* orange cursor dot */
+    .cursor-dot { position: fixed; top: 0; left: 0; width: 13px; height: 13px; border-radius: 99px; background: var(--orange); pointer-events: none; z-index: 9999; opacity: 0; transition: width 0.15s ease, height 0.15s ease, opacity 0.2s ease; }
+    .cursor-dot.on-link { width: 26px; height: 26px; opacity: 0.45; }
+    @media (hover: none), (pointer: coarse) { .cursor-dot { display: none; } }
+
+    @media (max-width: 680px) {
+      .stat-row { grid-template-columns: 1fr; }
+      .stat { border-left: 0; border-top: 1px solid var(--grey-line); }
+      .stat:first-child { border-top: 0; }
+      .page-head { padding-top: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+  <header class="nav-wrap">
+    <nav class="nav" aria-label="Site navigation">
+      <a class="brand" href="../index.html"><span class="mark">NK</span><span>Nayeon Kwak</span></a>
+      <a class="back" href="../index.html#projects">← Back to portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="wrap page-head">
+      <span class="kicker">Machine Learning · Classification</span>
+      <h1>Hotel Booking Cancellation Analysis</h1>
+      <p class="summary">Cancellations are lost revenue a hotel can see coming — if the model is right. I compared five classification approaches to predict which bookings would cancel, and examined where each model type breaks down.</p>
+      <div class="head-meta">
+        <span class="method">Python</span>
+        <span class="method">scikit-learn</span>
+        <span class="method">KNN</span>
+        <span class="method">Decision Tree</span>
+        <span class="method">Random Forest</span>
+        <span class="method">Boosting</span>
+      </div>
+      <a class="button" href="https://github.com/yuuuuniii/Hotel-Booking-Cancellation-Analysis" target="_blank" rel="noreferrer">View on GitHub ↗</a>
+      <div class="stat-row">
+        <div class="stat"><strong>5</strong><span>models compared head-to-head</span></div>
+        <div class="stat"><strong>Jupyter</strong><span>full analysis notebook</span></div>
+        <div class="stat"><strong>Revenue</strong><span>framing for Marketing &amp; Sales</span></div>
+      </div>
+    </div>
+
+    <div class="wrap page-body">
+      <section class="block">
+        <h2>The question</h2>
+        <p>In the post-pandemic hospitality market, cancellation behavior changed — lead times, room rates, and amenities like parking availability all shifted in importance. The Marketing &amp; Sales framing: <strong>which bookings should we treat as at-risk</strong>, so pricing and overbooking strategy can respond before the revenue is gone?</p>
+      </section>
+
+      <section class="block">
+        <h2>Approach</h2>
+        <ul>
+          <li>Explored and cleaned the <strong>booking dataset</strong>, engineering features around lead time, rate, and amenity signals that prior research links to cancellation behavior.</li>
+          <li>Trained and compared five classifiers: <strong>K-Nearest Neighbors, Decision Tree, Bagged Tree, Boosting, and Random Forest</strong>.</li>
+          <li>Evaluated the trade-offs — not just which model scored highest, but which errors each made and how interpretable its decisions were for a business audience.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2>What I learned about model choice</h2>
+        <p>Ensemble methods (Random Forest, Boosting) delivered the strongest predictive performance, but the single Decision Tree earned its place in the final presentation: stakeholders could read its splits directly and see <em>why</em> a booking was flagged. The lesson that carried into my professional work: <strong>the best model is the one the decision-maker will actually act on.</strong></p>
+      </section>
+
+      <section class="block">
+        <h2>Why it matters for my work</h2>
+        <div class="insight">Healthcare risk models face the same tension — a care team won't trust a black box that flags their patients. Comparing model families on interpretability, not just accuracy, is exactly the judgment clinical analytics requires.</div>
+      </section>
+
+      <div class="page-foot">
+        <a href="chipotle-rewards.html">← Previous: Chipotle Rewards</a>
+        <a href="sales-analysis.html">Next: Sales Analysis →</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const dot = document.querySelector('.cursor-dot');
+    window.addEventListener('mousemove', (e) => {
+      dot.style.opacity = dot.classList.contains('on-link') ? 0.45 : 1;
+      dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+    });
+    document.addEventListener('mouseleave', () => { dot.style.opacity = 0; });
+    document.querySelectorAll('a, button').forEach((el) => {
+      el.addEventListener('mouseenter', () => dot.classList.add('on-link'));
+      el.addEventListener('mouseleave', () => dot.classList.remove('on-link'));
+    });
+  </script>
+</body>
+</html>

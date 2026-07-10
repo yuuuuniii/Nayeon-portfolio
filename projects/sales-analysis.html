@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golf Wear Sales Analysis — Nayeon Kwak</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Same 4-role color system as the landing page (portfolio-mockup-v4) */
+    :root {
+      --blue:        #132b6f;
+      --blue-deep:   #101f4f;
+      --blue-tint:   #eef2fa;
+      --orange:      #f47b20;
+      --orange-tint: #fdf0e4;
+      --grey:        #4a5568;
+      --grey-line:   #e4e8ef;
+      --grey-bg:     #f7f8fa;
+      --paper:       #ffffff;
+      --radius: 8px;
+      --shadow: 0 1px 2px rgba(16, 31, 79, 0.05), 0 8px 28px rgba(16, 31, 79, 0.07);
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --font-serif: Georgia, 'Times New Roman', serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--blue-deep); background: var(--paper); font-family: var(--font-sans); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, p, ul, ol { margin-top: 0; }
+    .wrap { width: min(760px, calc(100% - 40px)); margin: 0 auto; }
+
+    .nav-wrap { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--grey-line); background: rgba(255,255,255,0.92); backdrop-filter: blur(14px); }
+    .nav { width: min(1140px, calc(100% - 40px)); min-height: 64px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 22px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; }
+    .mark { width: 32px; height: 32px; border-radius: 7px; display: grid; place-items: center; background: var(--blue); color: var(--paper); font-size: 12px; font-weight: 700; }
+    .back { color: var(--grey); font-size: 14px; font-weight: 600; }
+    .back:hover { color: var(--blue); }
+
+    .page-head { padding: 72px 0 44px; }
+    .kicker { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 18px; color: var(--orange); font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
+    .kicker::before { content: ""; width: 22px; height: 2px; background: var(--orange); }
+    h1 { margin-bottom: 18px; font-size: clamp(30px, 4.4vw, 46px); font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; }
+    .summary { color: var(--grey); font-family: var(--font-serif); font-size: 18px; line-height: 1.6; margin-bottom: 26px; }
+    .head-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+    .method { padding: 5px 12px; border-radius: 999px; border: 1px solid var(--grey-line); background: var(--paper); color: var(--grey); font-size: 12px; font-weight: 600; }
+    .button { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border: 1px solid var(--blue); border-radius: 999px; background: var(--blue); color: var(--paper); font-size: 14px; font-weight: 600; transition: background 0.15s; }
+    .button:hover { background: var(--blue-deep); }
+
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--grey-line); border-radius: var(--radius); overflow: hidden; margin-top: 32px; }
+    .stat { padding: 18px 20px; border-left: 1px solid var(--grey-line); background: var(--grey-bg); }
+    .stat:first-child { border-left: 0; }
+    .stat strong { display: block; margin-bottom: 4px; color: var(--blue); font-size: 24px; font-weight: 700; line-height: 1; }
+    .stat span { color: var(--grey); font-size: 13px; line-height: 1.4; }
+
+    .page-body { padding: 20px 0 80px; }
+    .block { margin-bottom: 44px; }
+    .block h2 { margin-bottom: 14px; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+    .block p, .block li { color: var(--grey); font-size: 15.5px; line-height: 1.65; }
+    .block p { margin-bottom: 14px; }
+    .block ul, .block ol { margin: 0 0 14px; padding-left: 22px; display: grid; gap: 8px; }
+    .block li::marker { color: var(--blue); }
+    .block strong { color: var(--blue-deep); font-weight: 600; }
+    .insight { padding: 16px 20px; border-left: 3px solid var(--orange); border-radius: 0 var(--radius) var(--radius) 0; background: var(--orange-tint); color: var(--blue-deep); font-family: var(--font-serif); font-style: italic; font-size: 15px; line-height: 1.6; }
+
+    .page-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 26px 0 60px; border-top: 1px solid var(--grey-line); }
+    .page-foot a { font-size: 14px; font-weight: 600; color: var(--blue); }
+    .page-foot a:hover { color: var(--blue-deep); }
+
+    /* orange cursor dot */
+    .cursor-dot { position: fixed; top: 0; left: 0; width: 13px; height: 13px; border-radius: 99px; background: var(--orange); pointer-events: none; z-index: 9999; opacity: 0; transition: width 0.15s ease, height 0.15s ease, opacity 0.2s ease; }
+    .cursor-dot.on-link { width: 26px; height: 26px; opacity: 0.45; }
+    @media (hover: none), (pointer: coarse) { .cursor-dot { display: none; } }
+
+    @media (max-width: 680px) {
+      .stat-row { grid-template-columns: 1fr; }
+      .stat { border-left: 0; border-top: 1px solid var(--grey-line); }
+      .stat:first-child { border-top: 0; }
+      .page-head { padding-top: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" aria-hidden="true"></div>
+
+  <header class="nav-wrap">
+    <nav class="nav" aria-label="Site navigation">
+      <a class="brand" href="../index.html"><span class="mark">NK</span><span>Nayeon Kwak</span></a>
+      <a class="back" href="../index.html#projects">← Back to portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="wrap page-head">
+      <span class="kicker">EDA · Retail Analytics</span>
+      <h1>Sales Analysis: Golin Golf Wear</h1>
+      <p class="summary">A Korean golf wear brand targeting customers in their 20s–30s was losing momentum in a crowding market. I ran a full EDA across three years of sales and customer feedback to find where the next product lineup should focus.</p>
+      <div class="head-meta">
+        <span class="method">EDA</span>
+        <span class="method">Customer segmentation</span>
+        <span class="method">Channel analysis</span>
+        <span class="method">Dashboard storytelling</span>
+      </div>
+      <a class="button" href="https://github.com/yuuuuniii/Sales-Analysis" target="_blank" rel="noreferrer">View on GitHub ↗</a>
+      <div class="stat-row">
+        <div class="stat"><strong>3 yrs</strong><span>sales across 20+ stores, 15+ online channels</span></div>
+        <div class="stat"><strong>1,000+</strong><span>product reviews and satisfaction surveys</span></div>
+        <div class="stat"><strong>15%</strong><span>sales growth from bundling strategy (21SS)</span></div>
+      </div>
+    </div>
+
+    <div class="wrap page-body">
+      <section class="block">
+        <h2>The question</h2>
+        <p>Golin's growth was slowing while competition intensified. Leadership needed to know: <strong>which products, channels, and promotions should the next season's lineup bet on?</strong> The answer had to come from what customers were actually doing — not what the merchandising team assumed.</p>
+      </section>
+
+      <section class="block">
+        <h2>Approach</h2>
+        <ol>
+          <li><strong>Collect</strong> — consolidated three years of transactions from 20+ offline stores and 15+ online channels with 1,000+ reviews and survey responses.</li>
+          <li><strong>Clean</strong> — removed missing values, standardized formats across channel systems that recorded the same products differently.</li>
+          <li><strong>Analyze</strong> — cut the data three ways: by customer, by channel, and by promotion.</li>
+          <li><strong>Generate insights</strong> — focused on product mix and promotion strategy, the two levers merchandising could actually pull.</li>
+          <li><strong>Recommend</strong> — translated findings into a concrete lineup and bundling plan.</li>
+        </ol>
+      </section>
+
+      <section class="block">
+        <h2>Key findings</h2>
+        <ul>
+          <li><strong>Churn was the real problem:</strong> most new customers made a single purchase and never returned — retention, not acquisition, was the growth lever.</li>
+          <li><strong>Price sensitivity varied by channel:</strong> budget items concentrated among lower-income customers in specific channels, arguing against one-size pricing.</li>
+          <li><strong>Basket patterns differed by category:</strong> sweaters and vests were bought in multi-item baskets 80%+ of the time; outerwear was a single-purchase category (~40%).</li>
+          <li><strong>Channel seasonality diverged:</strong> department stores spiked seasonally while online and agent channels stayed consistent — different inventory strategies needed.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2>Outcome</h2>
+        <div class="insight">The bundling recommendation — pairing high-attachment categories with accessories — was implemented in the 21SS launch and delivered 15% sales growth. The analysis worked because it ended in a decision someone could execute, not a report.</div>
+      </section>
+
+      <div class="page-foot">
+        <a href="hotel-cancellation.html">← Previous: Hotel Cancellation</a>
+        <a href="linkedin-postings.html">Next: LinkedIn Job Postings →</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const dot = document.querySelector('.cursor-dot');
+    window.addEventListener('mousemove', (e) => {
+      dot.style.opacity = dot.classList.contains('on-link') ? 0.45 : 1;
+      dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+    });
+    document.addEventListener('mouseleave', () => { dot.style.opacity = 0; });
+    document.querySelectorAll('a, button').forEach((el) => {
+      el.addEventListener('mouseenter', () => dot.classList.add('on-link'));
+      el.addEventListener('mouseleave', () => dot.classList.remove('on-link'));
+    });
+  </script>
+</body>
+</html>

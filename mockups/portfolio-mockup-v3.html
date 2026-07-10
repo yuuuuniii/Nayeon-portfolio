@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nayeon Kwak — Healthcare Analytics &amp; Market Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Georgia:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink:        #1a2332;
+      --muted:      #4a5568;
+      --quiet:      #f6f8fb;
+      --line:       #e3e9f2;
+      --blue:       #132b6f;
+      --blue-900:   #101f4f;
+      --blue-050:   #f1f4fb;
+      --orange:     #f47b20;
+      --orange-050: #fff4ec;
+      --paper:      #ffffff;
+      --shadow:     0 18px 55px rgba(13, 45, 108, 0.11);
+      --radius:     8px;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --font-serif: Georgia, 'Times New Roman', serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .page {
+      min-height: 100vh;
+      background:
+        linear-gradient(90deg,  rgba(24, 90, 219, 0.04) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(24, 90, 219, 0.04) 1px, transparent 1px);
+      background-size: 72px 72px;
+    }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid rgba(227, 233, 242, 0.82);
+      background: rgba(255, 255, 255, 0.90);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      width: min(1180px, calc(100% - 32px));
+      min-height: 68px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: max-content;
+      font-weight: 700;
+      color: var(--blue-900);
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--paper);
+      color: var(--blue);
+      box-shadow: 0 6px 18px rgba(13, 45, 108, 0.08);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover { color: var(--blue); }
+
+    .nav-cta, .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 16px;
+      background: var(--paper);
+      color: var(--blue-900);
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 6px 18px rgba(13, 45, 108, 0.06);
+      cursor: pointer;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+
+    .nav-cta:hover, .button:hover {
+      box-shadow: 0 10px 28px rgba(13, 45, 108, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .button.primary {
+      color: white;
+      border-color: var(--blue);
+      background: var(--blue);
+    }
+
+    .button.ghost-orange {
+      color: #8a3a03;
+      border-color: #ffd7bb;
+      background: var(--orange-050);
+      box-shadow: none;
+    }
+
+    /* ── LAYOUT HELPERS ──────────────────────────────── */
+    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 680px;
+      margin-bottom: 22px;
+      color: var(--blue-900);
+      font-family: var(--font-sans);
+      font-size: clamp(38px, 5.2vw, 64px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    .orange { color: var(--orange); }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: var(--blue-900);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 24px;
+      height: 2px;
+      border-radius: 99px;
+      background: var(--orange);
+      flex: 0 0 auto;
+    }
+
+    /* ── HERO ─────────────────────────────────────────── */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 0.96fr) minmax(410px, 1.04fr);
+      gap: 52px;
+      align-items: center;
+      padding: 86px 0 78px;
+    }
+
+    .lead {
+      max-width: 600px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-family: var(--font-serif);
+      font-size: 19px;
+      line-height: 1.52;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .proof-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      max-width: 640px;
+      margin-top: 40px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--line);
+      box-shadow: 0 12px 36px rgba(13, 45, 108, 0.08);
+    }
+
+    .proof {
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.94);
+    }
+
+    .proof strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--blue);
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .proof span {
+      color: var(--muted);
+      font-size: 13px;
+      font-family: var(--font-serif);
+      line-height: 1.4;
+    }
+
+    /* ── HERO DASHBOARD MOCK ─────────────────────────── */
+    .dashboard {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .dash-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 18px 0;
+    }
+
+    .mini-profile { display: flex; align-items: center; gap: 12px; }
+
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 999px;
+      border: 3px solid white;
+      background: url("../images/about.png") 50% 16% / 160%;
+      box-shadow: 0 8px 22px rgba(13, 45, 108, 0.18);
+      flex: 0 0 auto;
+    }
+
+    .mini-profile b {
+      display: block;
+      color: var(--blue-900);
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .mini-profile span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .status {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--orange-050);
+      color: #8a3a03;
+      border: 1px solid #ffd7bb;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .dash-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+      padding: 18px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      padding: 16px;
+    }
+
+    .panel h3 {
+      margin-bottom: 12px;
+      color: var(--blue-900);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .bars {
+      height: 196px;
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      padding-top: 10px;
+    }
+
+    .bar {
+      flex: 1;
+      min-width: 16px;
+      border-radius: 5px 5px 0 0;
+      background: linear-gradient(180deg, var(--blue), #4f69b2);
+      position: relative;
+    }
+
+    .bar:nth-child(even) { background: linear-gradient(180deg, var(--orange), #ffc59e); }
+
+    .bar::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .signal-list { display: grid; gap: 10px; }
+
+    .signal {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 10px;
+      border-radius: 7px;
+      background: var(--quiet);
+      color: var(--muted);
+      font-size: 12px;
+      font-family: var(--font-serif);
+      line-height: 1.42;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      margin-top: 4px;
+      border-radius: 99px;
+      background: var(--blue);
+      flex: 0 0 auto;
+    }
+
+    .signal:nth-child(2) .dot { background: var(--orange); }
+
+    .wide-panel {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .chip {
+      min-height: 72px;
+      display: grid;
+      align-content: center;
+      padding: 12px;
+      border-radius: 8px;
+      background: var(--quiet);
+      border: 1px solid var(--line);
+    }
+
+    .chip b {
+      color: var(--blue-900);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .chip span {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    /* ── SECTIONS ────────────────────────────────────── */
+    section { padding: 86px 0; }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 38px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    .section-head h2 {
+      margin-bottom: 0;
+      color: var(--blue-900);
+      font-size: clamp(28px, 3.6vw, 44px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+    }
+
+    .section-head p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-family: var(--font-serif);
+      font-size: 17px;
+      line-height: 1.52;
+    }
+
+    /* ── ABOUT ───────────────────────────────────────── */
+    .about-band {
+      background: var(--blue-900);
+      padding: 56px 0;
+    }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 52px;
+      align-items: start;
+    }
+
+    .about-left {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .about-headshot {
+      width: 72px;
+      height: 72px;
+      border-radius: 999px;
+      border: 3px solid rgba(255,255,255,0.18);
+      background: url("../images/about.png") 50% 16% / 160%;
+      flex: 0 0 auto;
+    }
+
+    .about-copy h2 {
+      color: white;
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.015em;
+      margin-bottom: 14px;
+    }
+
+    .about-copy p {
+      color: rgba(255, 255, 255, 0.74);
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.58;
+      margin-bottom: 0;
+    }
+
+    .about-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .about-quals {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.10);
+    }
+
+    .about-qual {
+      padding: 18px 20px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .about-qual strong {
+      display: block;
+      color: var(--orange);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .about-qual span {
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 13px;
+      font-family: var(--font-serif);
+      line-height: 1.42;
+    }
+
+    .about-photo-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      height: 200px;
+    }
+
+    .about-photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 28% 82%;
+      display: block;
+    }
+
+    .about-photo-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 14px;
+      background: linear-gradient(transparent, rgba(10, 20, 50, 0.72));
+      color: rgba(255,255,255,0.86);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── CAPABILITIES ────────────────────────────────── */
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .capability {
+      padding: 22px 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 8px 24px rgba(13, 45, 108, 0.05);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .capability:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .capability .num {
+      display: block;
+      color: var(--orange);
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .capability h3 {
+      margin: 18px 0 9px;
+      color: var(--blue-900);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .capability p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-family: var(--font-serif);
+      line-height: 1.48;
+    }
+
+    /* ── WORKBENCH (CASE STUDIES) ────────────────────── */
+    .workbench {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .workbench-tabs {
+      display: flex;
+      gap: 1px;
+      border-bottom: 1px solid var(--line);
+      background: var(--line);
+      overflow-x: auto;
+    }
+
+    .workbench-tab {
+      flex: 1;
+      min-width: 150px;
+      border: 0;
+      padding: 15px 16px;
+      background: var(--paper);
+      color: var(--muted);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+      white-space: nowrap;
+    }
+
+    .workbench-tab.active {
+      color: var(--blue-900);
+      background: var(--blue-050);
+      box-shadow: inset 0 -3px 0 var(--blue);
+    }
+
+    .workbench-tab:hover:not(.active) { background: var(--quiet); }
+
+    .workbench-body {
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      min-height: 420px;
+    }
+
+    .case-copy { padding: 34px; }
+
+    .case-copy h3 {
+      max-width: 560px;
+      margin-bottom: 12px;
+      color: var(--blue-900);
+      font-size: clamp(24px, 3.2vw, 36px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    .case-copy p {
+      color: var(--muted);
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.52;
+    }
+
+    .case-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 24px 0;
+    }
+
+    .meta {
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--quiet);
+    }
+
+    .meta b {
+      display: block;
+      color: var(--blue);
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .meta span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 11px;
+      font-family: var(--font-serif);
+      line-height: 1.35;
+    }
+
+    .method-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 20px;
+    }
+
+    .method {
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(19, 43, 111, 0.22);
+      background: var(--blue-050);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .case-visual {
+      padding: 28px;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(244, 123, 32, 0.12), transparent 200px),
+        linear-gradient(145deg, #f4f8ff, #ffffff);
+      border-left: 1px solid var(--line);
+      display: grid;
+      align-content: center;
+      gap: 16px;
+    }
+
+    .care-map {
+      height: 250px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(90deg,  rgba(24, 90, 219, 0.07) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(24, 90, 219, 0.07) 1px, transparent 1px),
+        var(--paper);
+      background-size: 36px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .node {
+      position: absolute;
+      width: 13px;
+      height: 13px;
+      border-radius: 99px;
+      background: var(--blue);
+      box-shadow: 0 0 0 7px rgba(24, 90, 219, 0.10);
+    }
+
+    .node.orange-node {
+      background: var(--orange);
+      box-shadow: 0 0 0 7px rgba(244, 123, 32, 0.12);
+    }
+
+    .path {
+      position: absolute;
+      height: 2px;
+      transform-origin: left center;
+      background: rgba(24, 90, 219, 0.24);
+    }
+
+    .case-insight {
+      padding: 14px 16px;
+      border-left: 3px solid var(--orange);
+      background: var(--orange-050);
+      color: #7a3a08;
+      font-size: 13px;
+      font-family: var(--font-serif);
+      font-style: italic;
+      line-height: 1.48;
+    }
+
+    /* ── PROJECTS ────────────────────────────────────── */
+    .project-strip { display: grid; gap: 0; }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: 0.72fr 1.15fr 0.55fr;
+      gap: 22px;
+      align-items: center;
+      padding: 18px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .project-row:first-child { border-top: 0; }
+
+    .project-row .type {
+      color: var(--orange);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .project-row h3 {
+      margin-bottom: 4px;
+      color: var(--blue-900);
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .project-row p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-family: var(--font-serif);
+      line-height: 1.48;
+    }
+
+    .project-row a {
+      justify-self: end;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid rgba(19, 43, 111, 0.22);
+      border-radius: 999px;
+      padding: 6px 14px;
+      background: var(--blue-050);
+      transition: background 0.12s;
+    }
+
+    .project-row a:hover { background: var(--blue); color: white; }
+
+    /* ── EXPERIENCE ──────────────────────────────────── */
+    .career-track {
+      position: relative;
+      display: grid;
+      gap: 18px;
+      padding-left: 28px;
+    }
+
+    .career-track::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      left: 8px;
+      width: 2px;
+      border-radius: 99px;
+      background: linear-gradient(180deg, var(--blue), var(--orange));
+    }
+
+    .career-batch {
+      position: relative;
+      display: grid;
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: 22px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 8px 24px rgba(13, 45, 108, 0.05);
+    }
+
+    .career-batch::before {
+      content: "";
+      position: absolute;
+      left: -25px;
+      top: 28px;
+      width: 12px;
+      height: 12px;
+      border-radius: 99px;
+      background: var(--paper);
+      border: 3px solid var(--blue);
+      box-shadow: 0 0 0 5px rgba(24, 90, 219, 0.08);
+    }
+
+    .career-batch.current {
+      border-color: rgba(24, 90, 219, 0.32);
+      background: linear-gradient(135deg, rgba(238, 245, 255, 0.94), rgba(255, 255, 255, 0.92));
+      box-shadow: var(--shadow);
+    }
+
+    .career-batch.current::before {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 5px rgba(244, 123, 32, 0.12);
+    }
+
+    .career-date {
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .career-stage {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 9px;
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .career-copy h3 {
+      margin: 0 0 6px;
+      color: var(--blue-900);
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .career-copy .company {
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 15px;
+      font-family: var(--font-serif);
+      font-style: italic;
+    }
+
+    .career-list {
+      display: grid;
+      gap: 7px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .career-list li {
+      position: relative;
+      padding-left: 16px;
+      color: var(--muted);
+      font-size: 14px;
+      font-family: var(--font-serif);
+      line-height: 1.48;
+    }
+
+    .career-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 6px;
+      height: 6px;
+      border-radius: 99px;
+      background: var(--blue);
+      flex: 0 0 auto;
+    }
+
+    /* ── EDUCATION ───────────────────────────────────── */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .edu-card {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.84);
+    }
+
+    .edu-card .degree {
+      color: var(--blue-900);
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .edu-card .school {
+      color: var(--muted);
+      font-size: 14px;
+      font-family: var(--font-serif);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+
+    .edu-card .year {
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ── CONTACT ─────────────────────────────────────── */
+    .contact {
+      margin-top: 52px;
+      border-radius: var(--radius);
+      background: var(--blue-900);
+      color: white;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 0.7fr;
+    }
+
+    .contact-copy { padding: 38px; }
+
+    .contact-copy h2 {
+      margin-bottom: 12px;
+      color: white;
+      font-size: clamp(26px, 3.4vw, 40px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.015em;
+    }
+
+    .contact-copy p {
+      color: rgba(255, 255, 255, 0.70);
+      font-family: var(--font-serif);
+      font-size: 17px;
+      line-height: 1.52;
+      margin-bottom: 0;
+    }
+
+    .contact-links {
+      display: grid;
+      align-content: center;
+      gap: 1px;
+      background: rgba(255, 255, 255, 0.10);
+    }
+
+    .contact-links a {
+      padding: 22px 28px;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      transition: background 0.12s;
+    }
+
+    .contact-links a:first-child { border-top: 0; }
+    .contact-links a:hover { background: rgba(255, 255, 255, 0.08); }
+
+    .footer {
+      padding: 24px 0 40px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 1080px) {
+      .capability-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .section-head,
+      .workbench-body,
+      .about-inner,
+      .contact {
+        grid-template-columns: 1fr;
+      }
+
+      .hero { gap: 32px; padding-top: 48px; }
+      .dashboard { max-width: 680px; }
+
+      .case-visual {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .capability-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .about-right { gap: 16px; }
+      .about-photo-card { height: 160px; }
+    }
+
+    @media (max-width: 680px) {
+      .nav {
+        min-height: auto;
+        padding: 14px 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links { width: 100%; overflow-x: auto; gap: 14px; padding-bottom: 3px; }
+
+      h1 { font-size: 36px; }
+      .lead { font-size: 16px; }
+
+      .proof-row,
+      .dash-grid,
+      .wide-panel,
+      .case-meta,
+      .capability-grid,
+      .edu-grid { grid-template-columns: 1fr; }
+
+      .career-track { padding-left: 18px; }
+      .career-track::before { left: 5px; }
+
+      .career-batch {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 18px;
+      }
+
+      .career-batch::before { left: -19px; top: 24px; }
+
+      .project-row { grid-template-columns: 1fr; gap: 8px; }
+      .project-row a { justify-self: start; }
+
+      .contact { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+
+      .dash-grid, .case-copy, .case-visual, .contact-copy { padding: 20px; }
+
+      section { padding: 60px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- NAV -->
+    <header class="nav-wrap">
+      <nav class="nav" aria-label="Site navigation">
+        <a class="brand" href="#top"><span class="mark">NK</span><span>Nayeon Kwak</span></a>
+        <div class="nav-links">
+          <a href="#about">About</a>
+          <a href="#focus">Expertise</a>
+          <a href="#work">Work</a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a class="nav-cta" href="mailto:hellonykwak@gmail.com">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+
+      <!-- HERO -->
+      <div class="wrap hero">
+        <section aria-label="Introduction">
+          <span class="kicker">Healthcare BI · Market Intelligence</span>
+          <h1>Healthcare decisions get clearer when the data is built right.</h1>
+          <p class="lead">I translate messy clinical, payer, and market data into SQL-backed dashboards, equity analyses, and strategic briefs that healthcare and business teams can act on. Six years of B2B analytics in Korea, now specialized in US population health.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#work">View selected work</a>
+            <a class="button ghost-orange" href="https://drive.google.com/file/d/1pzZDZuSBu2wF0C3RZcCyhBrDFEeHT3rI/view" target="_blank" rel="noreferrer">Download resume</a>
+            <a class="button" href="https://www.linkedin.com/in/ny-kwak" target="_blank" rel="noreferrer">LinkedIn</a>
+          </div>
+          <div class="proof-row" aria-label="Key metrics">
+            <div class="proof"><strong>9,300+</strong><span>patient records validated across payers</span></div>
+            <div class="proof"><strong>8+</strong><span>HEDIS and clinical quality metrics analyzed</span></div>
+            <div class="proof"><strong>6 yrs</strong><span>B2B analytics and competitive intelligence</span></div>
+          </div>
+        </section>
+
+        <aside class="dashboard" aria-label="Healthcare analytics dashboard preview">
+          <div class="dash-grid">
+            <div class="panel">
+              <h3>Care gap signal by HEDIS measure</h3>
+              <div class="bars" aria-hidden="true">
+                <div class="bar" data-label="CBP" style="height: 72%"></div>
+                <div class="bar" data-label="GSD" style="height: 48%"></div>
+                <div class="bar" data-label="TRC" style="height: 82%"></div>
+                <div class="bar" data-label="COA" style="height: 58%"></div>
+                <div class="bar" data-label="AWC" style="height: 66%"></div>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Analyst approach</h3>
+              <div class="signal-list">
+                <div class="signal"><span class="dot"></span><span>Validate attribution, outliers, and payer completeness before any analysis.</span></div>
+                <div class="signal"><span class="dot"></span><span>Stratify by race and ethnicity to surface equity gaps, not just aggregate rates.</span></div>
+                <div class="signal"><span class="dot"></span><span>Deliver findings as Power BI dashboards and director-ready briefs.</span></div>
+              </div>
+            </div>
+            <div class="wide-panel">
+              <div class="chip"><b>SQL</b><span>joins &amp; validation</span></div>
+              <div class="chip"><b>Power BI</b><span>dashboard delivery</span></div>
+              <div class="chip"><b>Excel</b><span>payer audits</span></div>
+              <div class="chip"><b>Python</b><span>ML &amp; NLP</span></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- ABOUT -->
+      <div id="about" class="about-band">
+        <div class="wrap about-inner">
+          <div class="about-left">
+            <div class="about-headshot" aria-hidden="true"></div>
+            <div class="about-copy">
+              <h2>Market intelligence analyst meets healthcare data engineer.</h2>
+              <p>I spent years as a competitive intelligence analyst for a global B2B apparel company in Seoul — building KPI pipelines, running store benchmarks, and turning supplier data into strategy decks for 80+ stakeholders. When I came to the US, I pivoted into healthcare analytics because population health is the same problem at higher stakes: fragmented data, competing stakeholders, and decisions that actually matter. That market-intelligence background is now an advantage. I ask the competitive questions most clinical analysts don't.</p>
+            </div>
+          </div>
+          <div class="about-right">
+            <div class="about-quals">
+              <div class="about-qual"><strong>Cross-sector</strong><span>Healthcare, energy, and apparel markets — same analytical rigor, different domains</span></div>
+              <div class="about-qual"><strong>Director-ready</strong><span>Delivered findings to leadership committees and C-suite stakeholders</span></div>
+              <div class="about-qual"><strong>Seoul → Boston</strong><span>International analytical perspective across Korean and US market contexts</span></div>
+              <div class="about-qual"><strong>Public + Private</strong><span>CMS, EIA, ACS, payer data, and internal ops — comfort with messy sources</span></div>
+            </div>
+            <div class="about-photo-card">
+              <img src="../images/running.jpg" alt="Nayeon at the Boston 2024 race" />
+              <span class="about-photo-label">Boston, 2024 — also a runner</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPERTISE -->
+      <section id="focus">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Two disciplines, one analyst.</h2>
+            <p>Healthcare analytics and market intelligence aren't separate tracks — they use the same core skills: define a question, find the right data, validate it rigorously, and tell a story decision-makers can use. My work lives at that intersection.</p>
+          </div>
+          <div class="capability-grid">
+            <article class="capability">
+              <span class="num">01</span>
+              <h3>Quality Measurement</h3>
+              <p>HEDIS workflows, payer data validation, discrepancy resolution, and clinical metric reporting for ACO and health plan clients.</p>
+            </article>
+            <article class="capability">
+              <span class="num">02</span>
+              <h3>Health Equity</h3>
+              <p>Race and ethnicity stratification using chi-square testing to separate measurable performance gaps from statistical noise.</p>
+            </article>
+            <article class="capability">
+              <span class="num">03</span>
+              <h3>Patient Movement</h3>
+              <p>Leakage analysis, geographic proximity mapping, partnership impact assessment, and financial opportunity sizing.</p>
+            </article>
+            <article class="capability">
+              <span class="num">04</span>
+              <h3>Decision Storytelling</h3>
+              <p>Power BI dashboards and executive briefs that translate complex analysis into something operators can act on the same day.</p>
+            </article>
+            <article class="capability">
+              <span class="num">05</span>
+              <h3>Market &amp; Competitive Intelligence</h3>
+              <p>Benchmarking, go-to-market analysis, survey design, and public data synthesis — EIA, ACS, Census — for strategic planning.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- CASE STUDIES -->
+      <section id="work">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Work that moved decisions.</h2>
+            <p>Each project started with a stakeholder question. These are the analyses, dashboards, and briefs that shaped the answer — from HEDIS quality gaps to market entry risk.</p>
+          </div>
+          <div class="workbench">
+            <div class="workbench-tabs" role="tablist" aria-label="Case studies">
+              <button class="workbench-tab active" data-case="incline" role="tab" aria-selected="true">Healthcare BI</button>
+              <button class="workbench-tab" data-case="hedis" role="tab" aria-selected="false">HEDIS + Equity</button>
+              <button class="workbench-tab" data-case="leakage" role="tab" aria-selected="false">Patient Leakage</button>
+              <button class="workbench-tab" data-case="market" role="tab" aria-selected="false">Market Dashboard</button>
+              <button class="workbench-tab" data-case="nlp" role="tab" aria-selected="false">NLP + AI Media</button>
+            </div>
+            <div class="workbench-body">
+              <article class="case-copy">
+                <span class="kicker" id="case-kicker">Incline Analytics</span>
+                <h3 id="case-title">Healthcare BI dashboards from client questions</h3>
+                <p id="case-text">Translate healthcare operations requests into structured SQL queries, Power BI dashboards, and analytical briefs. Benchmark comparable business practices to identify dashboard gaps and turn external comparisons into adoption recommendations for clients.</p>
+                <div class="case-meta">
+                  <div class="meta"><b id="m1">SQL</b><span id="l1">client query logic</span></div>
+                  <div class="meta"><b id="m2">Power BI</b><span id="l2">dashboard delivery</span></div>
+                  <div class="meta"><b id="m3">Benchmarks</b><span id="l3">practice comparison</span></div>
+                </div>
+                <div class="method-row" id="methods">
+                  <span class="method">SQL</span>
+                  <span class="method">Power BI</span>
+                  <span class="method">Healthcare operations</span>
+                  <span class="method">Market intelligence</span>
+                </div>
+              </article>
+              <aside class="case-visual" aria-label="Case visual">
+                <div class="care-map" aria-hidden="true">
+                  <span class="path" style="width: 180px; left: 78px; top: 86px; transform: rotate(18deg)"></span>
+                  <span class="path" style="width: 140px; left: 210px; top: 162px; transform: rotate(-24deg)"></span>
+                  <span class="path" style="width: 110px; left: 115px; top: 192px; transform: rotate(-8deg)"></span>
+                  <span class="node" style="left: 70px; top: 79px"></span>
+                  <span class="node orange-node" style="left: 250px; top: 130px"></span>
+                  <span class="node" style="left: 345px; top: 102px"></span>
+                  <span class="node orange-node" style="left: 134px; top: 185px"></span>
+                  <span class="node" style="left: 272px; top: 212px"></span>
+                </div>
+                <div class="case-insight" id="case-note">The first deliverable at Incline was mapping client questions to SQL patterns — finding what already existed in the data model before writing a single query.</div>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>More work, more range.</h2>
+            <p>Academic and competition projects built to stretch the toolkit into machine learning, experimental design, and geographic analysis — different domains, same analytical rigor.</p>
+          </div>
+          <div class="project-strip">
+            <article class="project-row">
+              <div>
+                <span class="type">Experimental Design</span>
+                <h3>Chipotle Rewards Redesign</h3>
+              </div>
+              <p>Designed and analyzed a loyalty program experiment using ANOVA and post-hoc testing to measure the effect of reward structure on customer motivation and retention behavior.</p>
+              <a href="https://github.com/yuuuuniii/Customer-Loyalty-Program-Redesign_Chipotle-Rewards.git" target="_blank" rel="noreferrer">GitHub →</a>
+            </article>
+            <article class="project-row">
+              <div>
+                <span class="type">Machine Learning</span>
+                <h3>Hotel Booking Cancellation</h3>
+              </div>
+              <p>Compared KNN, decision tree, gradient boosting, and random forest models to predict cancellation risk and identify the conditions under which each model type breaks down.</p>
+              <a href="https://github.com/yuuuuniii/Hotel-Booking-Cancellation-Analysis.git" target="_blank" rel="noreferrer">GitHub →</a>
+            </article>
+            <article class="project-row">
+              <div>
+                <span class="type">Dashboard</span>
+                <h3>Sales Analysis</h3>
+              </div>
+              <p>Exploratory data analysis and dashboard design oriented toward a non-technical stakeholder audience — how to show trends without losing the decision-relevant signal.</p>
+              <a href="https://github.com/yuuuuniii/Sales-Analysis.git" target="_blank" rel="noreferrer">GitHub →</a>
+            </article>
+            <article class="project-row">
+              <div>
+                <span class="type">Geographic Analysis</span>
+                <h3>LinkedIn Job Posting Analysis</h3>
+              </div>
+              <p>Tableau-based geographic and role-type analysis of analyst job postings to help new graduates understand where to focus their search by location and industry.</p>
+              <a href="https://github.com/yuuuuniii/LinkedIn-Posting-Analysis.git" target="_blank" rel="noreferrer">GitHub →</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE + EDUCATION -->
+      <section id="experience">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Experience and education.</h2>
+            <p>Six years of B2B competitive analytics in Seoul, two US internships in market research and population health, now building healthcare BI full-time — with a graduate degree connecting both sides.</p>
+          </div>
+
+          <div class="career-track">
+            <article class="career-batch current">
+              <div>
+                <div class="career-date">Feb 2026 – Present</div>
+                <span class="career-stage">Current role</span>
+              </div>
+              <div class="career-copy">
+                <h3>Business Intelligence Engineer</h3>
+                <p class="company">Incline Analytics · Portsmouth, NH · Healthcare Analytics &amp; Market Intelligence</p>
+                <ul class="career-list">
+                  <li>Translate client requests into structured SQL queries, Power BI dashboards, and analytical briefs for healthcare operations teams.</li>
+                  <li>Scope comparable healthcare business practices to identify dashboard gaps and turn external benchmarks into concrete adoption recommendations.</li>
+                </ul>
+              </div>
+            </article>
+            <article class="career-batch">
+              <div>
+                <div class="career-date">Jan 2025 – Feb 2026</div>
+                <span class="career-stage">Population health &amp; equity analytics</span>
+              </div>
+              <div class="career-copy">
+                <h3>Data Analyst Intern</h3>
+                <p class="company">UMass Memorial Health · Worcester, MA · Population Health &amp; Equity Analytics</p>
+                <ul class="career-list">
+                  <li>Delivered patient leakage and financial impact analysis on the CVS/MGB primary care partnership, supporting committee-facing opposition materials presented to Director-level leadership.</li>
+                  <li>Applied chi-square testing to MassHealth ACO quality data across race and ethnicity segments to separate statistically meaningful gaps from noise across 9,300+ patient records and 8+ HEDIS measures.</li>
+                  <li>Built a Tableau dashboard for THPP Medicaid ACO to track chronic disease risk scores and flag high-priority patient conditions for care team outreach.</li>
+                </ul>
+              </div>
+            </article>
+            <article class="career-batch">
+              <div>
+                <div class="career-date">Jun 2024 – Dec 2024</div>
+                <span class="career-stage">Market research</span>
+              </div>
+              <div class="career-copy">
+                <h3>Market Research Intern</h3>
+                <p class="company">Sprague Energy · Portsmouth, NH · Market Intelligence and Research</p>
+                <ul class="career-list">
+                  <li>Conducted focused group interviews and launched a Qualtrics CX survey with 100+ respondents to shape go-to-market recommendations for heating products.</li>
+                  <li>Developed forecasting decks integrating EIA, Census, DOE, and internal sales data to evaluate heat-pump adoption and gas conversion opportunities across New England markets.</li>
+                </ul>
+              </div>
+            </article>
+            <article class="career-batch">
+              <div>
+                <div class="career-date">Jul 2017 – Jul 2023</div>
+                <span class="career-stage">Analytics foundation</span>
+              </div>
+              <div class="career-copy">
+                <h3>Data Analyst — Competitive Intelligence &amp; B2B Market Research</h3>
+                <p class="company">Hansae Co., Ltd · Seoul, Korea</p>
+                <ul class="career-list">
+                  <li>Ran competitive store and trend analysis across Gap's key rivals to feed seasonal B2B strategy and product positioning decisions.</li>
+                  <li>Produced recurring KPI reports for 80+ stakeholders by consolidating supplier, merchandising, and operational data into executive-ready presentations.</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+
+
+          <!-- CONTACT -->
+          <div class="contact">
+            <div class="contact-copy">
+              <h2>Let's talk population health, quality analytics, or market strategy.</h2>
+              <p>I'm open to full-time roles in healthcare analytics, population health, and market intelligence. Best reached directly by email — I respond the same day.</p>
+              <div class="hero-actions">
+                <a class="button" href="mailto:hellonykwak@gmail.com">hellonykwak@gmail.com</a>
+                <a class="button ghost-orange" href="https://drive.google.com/file/d/1pzZDZuSBu2wF0C3RZcCyhBrDFEeHT3rI/view" target="_blank" rel="noreferrer">Resume</a>
+              </div>
+            </div>
+            <div class="contact-links">
+              <a href="https://www.linkedin.com/in/ny-kwak" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+              <a href="https://github.com/yuuuuniii" target="_blank" rel="noreferrer">GitHub ↗</a>
+              <a href="mailto:hellonykwak@gmail.com">Email ↗</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer wrap">
+      &copy; 2026 Nayeon Kwak · Boston, MA
+    </footer>
+  </div>
+
+  <script>
+    const cases = {
+      incline: {
+        kicker: "Incline Analytics · Current role",
+        title: "Healthcare BI dashboards from client questions",
+        text: "Translate healthcare operations requests into structured SQL queries, Power BI dashboards, and analytical briefs. Benchmark comparable business practices to identify dashboard gaps and turn external comparisons into adoption recommendations for clients.",
+        metrics: [["SQL", "client query logic"], ["Power BI", "dashboard delivery"], ["Benchmarks", "practice comparison"]],
+        methods: ["SQL", "Power BI", "DAX", "Healthcare operations", "Market intelligence"],
+        note: "The first deliverable was mapping client questions to SQL patterns — finding what already existed in the data model before writing a single query."
+      },
+      hedis: {
+        kicker: "UMass Memorial Health · Population Health",
+        title: "HEDIS performance and health equity analysis",
+        text: "Presented quality and equity findings to Director-level leadership. Applied chi-square testing to MassHealth ACO quality data across race and ethnicity segments to separate statistically meaningful performance gaps from noise — across 9,300+ patient records and 8+ HEDIS measures.",
+        metrics: [["9,300+", "patient records"], ["8+", "HEDIS measures"], ["Chi-sq.", "gap testing"]],
+        methods: ["SQL", "Excel", "Epic / EHR", "HEDIS", "Health equity", "Chi-square"],
+        note: "Key finding: aggregate performance masked a statistically significant disparity for one racial segment that did not appear until stratified analysis was applied."
+      },
+      leakage: {
+        kicker: "UMass Memorial Health · Competitive Intelligence",
+        title: "Patient leakage analysis for partnership impact",
+        text: "Evaluated commercial patient migration risk from a CVS Minute Clinic / Mass General Brigham primary care partnership. Mapped clinic and practice proximity, estimated accessible patient volume, and sized financial implications to support committee-facing opposition documents.",
+        metrics: [["Geo", "proximity mapping"], ["MGB/CVS", "partnership lens"], ["$", "opportunity sizing"]],
+        methods: ["Geographic analysis", "Healthcare strategy", "Excel", "Stakeholder synthesis"],
+        note: "The committee needed a number, not a framework. The analysis focused on estimating the accessible patient population within a drive-time radius before modeling financial exposure."
+      },
+      market: {
+        kicker: "Sprague Energy · Market Intelligence",
+        title: "Regional heating market forecasting dashboard",
+        text: "Built Power BI dashboards integrating ACS, EIA, and internal sales data to visualize heating trends, natural gas adoption curves, demand scenarios, and market-entry risk across New England. Supported go-to-market decision-making for heat-pump and gas conversion products.",
+        metrics: [["10+ yrs", "EIA + sales data"], ["100+", "survey respondents"], ["Power BI", "dashboard"]],
+        methods: ["Power BI", "Power Query", "ACS", "EIA / DOE", "Qualtrics", "Market research"],
+        note: "Public data (EIA, Census) told the structural story; internal sales data showed where adoption was already happening and where the gap between structure and behavior was widest."
+      },
+      nlp: {
+        kicker: "RAISE-24 Data Science Competition · Special Mention Award",
+        title: "AI media narrative analysis with NLP",
+        text: "Analyzed 30,000+ news headlines using NLP techniques to model how media framing shapes public fear and perception of AI. Examined sentiment drift over time and across publication types. Received a Special Mention Award from the RAISE-24 competition.",
+        metrics: [["30K+", "headlines analyzed"], ["NLP", "text + sentiment"], ["Award", "special mention"]],
+        methods: ["Python", "NLTK / spaCy", "Sentiment analysis", "NLP", "Research communication"],
+        note: "The most interesting finding was that fear-coded language peaked not after AI incidents, but after major product announcements — suggesting coverage is driven by novelty, not safety events."
+      }
+    };
+
+    const tabs = document.querySelectorAll(".workbench-tab");
+
+    const setCase = (name) => {
+      const item = cases[name];
+      if (!item) return;
+      document.getElementById("case-kicker").textContent = item.kicker;
+      document.getElementById("case-title").textContent = item.title;
+      document.getElementById("case-text").textContent = item.text;
+      document.getElementById("case-note").textContent = item.note;
+      item.metrics.forEach((metric, i) => {
+        const mEl = document.getElementById(`m${i + 1}`);
+        const lEl = document.getElementById(`l${i + 1}`);
+        if (mEl) mEl.textContent = metric[0];
+        if (lEl) lEl.textContent = metric[1];
+      });
+      document.getElementById("methods").innerHTML =
+        item.methods.map(m => `<span class="method">${m}</span>`).join("");
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected", "false"); });
+        tab.classList.add("active");
+        tab.setAttribute("aria-selected", "true");
+        setCase(tab.dataset.case);
+      });
+    });
+  </script>
+</body>
+</html>
